@@ -7,6 +7,9 @@ PROMPT = "> "
 
 
 async def _reader_task(reader: asyncio.StreamReader):
+    """
+    Task to read data from the server and print it to the console.
+    """
     while not reader.at_eof():
         data = await reader.readline()
         if not data:
@@ -15,9 +18,15 @@ async def _reader_task(reader: asyncio.StreamReader):
 
 
 async def _stdin_task(writer: asyncio.StreamWriter):
+    """
+    Task to read user input from stdin and send it to the server.
+    """
     loop = asyncio.get_running_loop()
 
     def _sync_readline() -> str:
+        """
+        Synchronous readline function to run in a separate thread.
+        """
         try:
             return sys.stdin.readline()
         except KeyboardInterrupt:
@@ -27,34 +36,46 @@ async def _stdin_task(writer: asyncio.StreamWriter):
         line = await loop.run_in_executor(None, _sync_readline)
         if not line:
             line = "/quit\n"
+
+        # Handle client-side commands
+        if line.strip().startswith("/help"):
+            print("Commands:")
+            print("  /nick <name> - change your nickname")
+            print("  /quit        - leave the chat")
+            print("  /help        - show this help message")
+            print(PROMPT, end="", flush=True)
+            continue
+
         writer.write(line.encode())
         try:
             await writer.drain()
         except Exception:
             return
+
         if line.strip().startswith("/quit"):
             return
         print(PROMPT, end="", flush=True)
 
 
 async def run_client(host: str, port: int, name: str | None) -> int:
+    """
+    Main function to run the chat client.
+    """
     try:
         reader, writer = await asyncio.open_connection(host, port)
     except Exception as exc:
         print(f"Failed to connect to {host}:{port} — {exc}")
         return 2
 
-    # Send nickname proactively after greeting prompt arrives
     async def send_name():
-        # read until we see the nickname prompt or timeout
+        """
+        Sends the nickname to the server after receiving the initial greeting.
+        """
         try:
-            line = await asyncio.wait_for(reader.readline(), timeout=5)
+            await asyncio.wait_for(reader.readline(), timeout=5)
             if name is not None:
                 writer.write((name + "\n").encode())
                 await writer.drain()
-            else:
-                # print the rest of the greeting and show prompt
-                print(line.decode(errors="ignore"), end="")
         except asyncio.TimeoutError:
             if name is not None:
                 writer.write((name + "\n").encode())
@@ -80,9 +101,12 @@ async def run_client(host: str, port: int, name: str | None) -> int:
 
 
 def main(argv: list[str] | None = None) -> None:
+    """
+    Main entry point for the client script.
+    """
     import argparse
 
-    parser = argparse.ArgumentParser(prog="terminalchat", description="Connect to a terminalchat server")
+    parser = argparse.ArgumentParser(prog="terminalchate", description="Connect to a terminalchat server")
     parser.add_argument("host", help="Server host")
     parser.add_argument("port", type=int, help="Server port")
     parser.add_argument("--name", help="Optional nickname to use")
