@@ -15,9 +15,11 @@ terminalchat-server --host 0.0.0.0 --port 9000
 ## Connect a client
 ```
 terminalchat 127.0.0.1 9000 --name alice
+```
 
-# In another terminal
+##### In another terminal
 
+```
 terminalchat 127.0.0.1 9000 --name bob
 ```
 
