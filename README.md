@@ -4,23 +4,21 @@
 
 ## Install
 ```
-pip3 install terminalchat
+pip3 install terminalchate
 ```
 
 ## Run the server
 ```
-terminalchat-server --host 0.0.0.0 --port 9000
+terminalchate-server --host 0.0.0.0 --port 9000
 ```
 
 ## Connect a client
 ```
-terminalchat 127.0.0.1 9000 --name alice
+terminalchate 127.0.0.1 9000 --name alice
 ```
-
-##### In another terminal
-
+In another terminal then
 ```
-terminalchat 127.0.0.1 9000 --name bob
+terminalchate 127.0.0.1 9000 --name bob
 ```
 
 Type to chat. Commands:
