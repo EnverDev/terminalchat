@@ -1,0 +1,14 @@
+LICENSE
+README.md
+pyproject.toml
+src/terminalchat/__init__.py
+src/terminalchat/_version.py
+src/terminalchat/client.py
+src/terminalchat/core.py
+src/terminalchat/server.py
+src/terminalchat.egg-info/PKG-INFO
+src/terminalchat.egg-info/SOURCES.txt
+src/terminalchat.egg-info/dependency_links.txt
+src/terminalchat.egg-info/entry_points.txt
+src/terminalchat.egg-info/top_level.txt
+tests/test_core.py
