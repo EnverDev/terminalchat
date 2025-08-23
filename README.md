@@ -2,9 +2,9 @@
 
 ## Tiny terminal chat with an asyncio server and CLI client. Python 3.12+.
 
-## Install (local dev)
+## Install
 ```
-pip install -e .
+pip3 install terminalchat
 ```
 
 ## Run the server
