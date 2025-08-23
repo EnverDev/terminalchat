@@ -16,9 +16,8 @@ terminalchat-server --host 0.0.0.0 --port 9000
 ```
 terminalchat 127.0.0.1 9000 --name alice
 
-# In another 
+# In another terminal
 
-terminal
 terminalchat 127.0.0.1 9000 --name bob
 ```
 
