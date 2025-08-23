@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from typing import Dict
 
 WELCOME = (
-    "Welcome to terminalchat!\n"
+    "Welcome to terminalchate!\n"
     "Type messages and press Enter to chat.\n"
     "Commands: /nick <name>, /quit\n"
 )
@@ -29,7 +29,7 @@ class ChatServer:
     async def start(self) -> None:
         self._server = await asyncio.start_server(self._handle_client, self.host, self.port)
         sockets = ", ".join(str(s.getsockname()) for s in (self._server.sockets or []))
-        print(f"terminalchat-server listening on {sockets}")
+        print(f"terminalchate-server listening on {sockets}")
         async with self._server:
             await self._server.serve_forever()
 
@@ -141,7 +141,7 @@ def _install_signal_handlers(server: ChatServer) -> None:
 def main(argv: list[str] | None = None) -> None:
     import argparse
 
-    parser = argparse.ArgumentParser(prog="terminalchat-server", description="Run a tiny terminal chat server")
+    parser = argparse.ArgumentParser(prog="terminalchate-server", description="Run a tiny terminal chat server")
     parser.add_argument("--host", default="0.0.0.0", help="Bind host (default: 0.0.0.0)")
     parser.add_argument("--port", type=int, default=7777, help="Port to listen on (default: 7777)")
     parser.add_argument("--max-clients", type=int, default=None, help="Optional limit on concurrent clients")
